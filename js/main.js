@@ -50,14 +50,18 @@ function noAuthorized() {
 
   function logIn(event) {
     event.preventDefault();
-    login = loginInput.value;
-    localStorage.setItem("deliveryFood", login);
-    toggleModalAuth();
-    buttonAuth.removeEventListener("click", toggleModalAuth);
-    closeAuth.removeEventListener("click", toggleModalAuth);
-    logInForm.removeEventListener("submit", logIn);
-    logInForm.reset();
-    checkAuth();
+    if (loginInput.value.trim()) {
+      login = loginInput.value;
+      localStorage.setItem("deliveryFood", login);
+      toggleModalAuth();
+      buttonAuth.removeEventListener("click", toggleModalAuth);
+      closeAuth.removeEventListener("click", toggleModalAuth);
+      logInForm.removeEventListener("submit", logIn);
+      logInForm.reset();
+      checkAuth();
+    } else {
+      loginInput.style.borderColor = "red";
+    }
   }
 
   buttonAuth.addEventListener("click", toggleModalAuth);
@@ -66,11 +70,8 @@ function noAuthorized() {
 }
 
 function checkAuth() {
-  if (login > "") {
+  if (login) {
     authorized();
-  } else if (login == "") {
-    alert("Введите логин!");
-    noAuthorized();
   } else {
     noAuthorized();
   }
