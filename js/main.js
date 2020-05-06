@@ -17,6 +17,7 @@ const logInForm = document.querySelector("#logInForm");
 const loginInput = document.querySelector("#login");
 const userName = document.querySelector(".user-name");
 const buttonOut = document.querySelector(".button-out");
+const cardsRestaurants = document.querySelector(".cards-restaurants");
 
 let login = localStorage.getItem("deliveryFood");
 
@@ -45,12 +46,17 @@ function authorized() {
   buttonOut.addEventListener("click", logOut);
 }
 
+function maskInput(string) {
+  return !!string.trim();
+}
+
 function noAuthorized() {
   console.log("Не авторизован");
 
   function logIn(event) {
     event.preventDefault();
-    if (loginInput.value.trim()) {
+
+    if (maskInput(loginInput.value)) {
       login = loginInput.value;
       localStorage.setItem("deliveryFood", login);
       toggleModalAuth();
@@ -78,3 +84,44 @@ function checkAuth() {
 }
 
 checkAuth();
+
+function createCardRestaurant() {
+  const card = `
+  <a class="card card-restaurant">
+              <img
+                src="img/pizza-plus/preview.jpg"
+                alt="image"
+                class="card-image"
+              />
+              <div class="card-text">
+                <div class="card-heading">
+                  <h3 class="card-title">Пицца плюс</h3>
+                  <span class="card-tag tag">50 мин</span>
+                </div>                
+                <div class="card-info">
+                  <div class="rating">
+                    4.5
+                  </div>
+                  <div class="price">От 900 ₽</div>
+                  <div class="category">Пицца</div>
+                </div>          
+              </div>              
+            </a>
+  `;
+
+  cardsRestaurants.insertAdjacentHTML("beforeend", card);
+}
+
+createCardRestaurant();
+
+function openGoods(event) {
+  const target = event.target;
+
+  const restaurant = target.closest(".cards-restaurants");
+  console.log("restaurant", restaurant);
+
+  if (restaurant) {
+  }
+}
+
+cardsRestaurants.addEventListener("click", openGoods);
